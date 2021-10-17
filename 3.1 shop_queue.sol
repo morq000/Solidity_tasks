@@ -17,7 +17,7 @@ contract  ShopQueue {
 	}
 
 	// Function to output current queue qhile running on a test net
-	function outputQueue() public checkOwnerAndAccept returns (string[]) {
+	function outputQueue() public view checkOwnerAndAccept returns (string[]) {
 		return queue;
 	}
 
