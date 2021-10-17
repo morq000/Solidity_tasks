@@ -26,7 +26,7 @@ contract taskList {
 	// Function to add new task
 	function addTask(string name) public checkOwnerAndAccept returns (mapping(int8=>Task)) {
 		// Get current timestamp
-		uint32 timestamp = now;
+		uint timestamp = now;
 
 		// Add new sctructure element to mapping
 		Task new_task;
