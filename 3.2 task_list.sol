@@ -96,5 +96,4 @@ contract taskList {
 
 			return task_list;
 	}
-
 }
