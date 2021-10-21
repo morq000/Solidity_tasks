@@ -76,11 +76,6 @@ contract taskList {
 			// Delete element from mapping
 			delete task_list[_task_index];
 
-			// for (int8 index = _task_index; index < counter; index++) {
-			// 	task_list[index] = task_list[index+1];
-			// }
-			// counter --;	
-
 			return task_list;
 	}
 
