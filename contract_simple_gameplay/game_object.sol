@@ -58,18 +58,18 @@ contract gameObject is IgameObject {
             // Case unit got damaged
             damage = _attackPower - defence;
             lives -= int(damage);
-            tvm.log(format("Unit got damaged by {}, lives remaining: {}", damage, lives));
+            logtvm(format("Unit got damaged by {}, lives remaining: {}", damage, lives));
 
             // check if unit got killed by damage
             if (checkIfKilled()) {
-            tvm.log("Unit lost all lives and got killed");
+            logtvm("Unit lost all lives and got killed");
 
-            // Call function to destroy contract and send all funds to the attacker
-            playDead(attacker);
+            // Call function to process unit death
+            lastThingBeforeDeath(attacker);
             }
         }
         else {
-            tvm.log("Unit defence is bigger than attack value. Unit remains untouched.");
+            logtvm("Unit defence is bigger than attack value. Unit remains untouched.");
         }
 
         
@@ -83,7 +83,11 @@ contract gameObject is IgameObject {
         }
     }
 
-    function playDead(address attacker) private pure {
+    function lastThingBeforeDeath(address attacker) internal virtual {
+        sendAllMoneyAndDestroy(attacker);
+    }
+
+    function sendAllMoneyAndDestroy(address attacker) internal pure {
         tvm.accept();
         // Send all money to killer and destroy contract
         attacker.transfer(1, true, 160);

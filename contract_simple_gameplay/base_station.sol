@@ -2,6 +2,7 @@ pragma ton-solidity >= 0.35;
 pragma AbiHeader expire;
 
 import 'game_object.sol';
+import 'battle_unit.sol';
 
 
 // Контракт "Базовая станция" (Родитель "Игровой объект")
@@ -31,15 +32,47 @@ contract baseStation is gameObject {
         return defence;
     }
 
-    function addUnit(address _unit_address) external {
+    function getUnits() public view returns (address[]) {
+        return units;
+    }
+
+    function addUnit() external {
         tvm.accept();
-        units.push(_unit_address);
-        tvm.log(format("Unit added: {}", _unit_address));
+        address unit_address = msg.sender;
+        units.push(unit_address);
+        logtvm(format("Unit added: {}", unit_address));
     }	
 
     function deleteUnit(address _unit_address) external {
         tvm.accept();
-        //delete units[_unit_address];
-        tvm.log(format("Unit added: {}", _unit_address));
+
+        for (uint index = 0; index < units.length; index++) {
+            if (units[index] == _unit_address) {
+                delete units[index];
+
+                // Move array to delete 0:0000... value
+                for (uint k = index; k < units.length; k++) {
+                    units[k] = units[k+1];
+                    units.pop();
+                }
+
+                logtvm(format("Unit deleted: {}", _unit_address));
+            }
+        }      
     }	
+
+    function lastThingBeforeDeath(address attacker) internal override {
+        tvm.accept();
+
+        // call deathBaseDestroyed() for every unit in array
+        for (uint index = 0; index < units.length; index++) {
+
+                battleUnit(units[index]).deathBaseDestroyed(attacker);               
+                delete units[index];
+                
+
+        }
+
+        sendAllMoneyAndDestroy(attacker);
+    } 
 }

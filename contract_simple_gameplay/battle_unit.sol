@@ -32,17 +32,53 @@ contract battleUnit is gameObject {
         tvm.accept();
 
 		thisUnit = structUnit(address(tvm.pubkey()), "none", _attack_power, _base1);
-		_base1.addUnit(address(tvm.pubkey()));
 		logtvm("Unit constructed");
+
+		// Save base station address
+		thisUnit.baseStationAddress = _base1;
+		
+		// Call base station method to add unit to unit list
+		_base1.addUnit();	
+		logtvm("Unit added to base");
     }
 
+	// Атаковать другой юнит
 	function attackUnit(address victim) public {
 		gameObject(victim).getDamage(thisUnit.attackPower);
 		logtvm(format("attacked unit {} with {} power", victim, thisUnit.attackPower));
 	}
 
-	function playDead(){
+	// Сменить базу - может только обладатель
+	function changeBase(address _new_base) external {
+		require(msg.pubkey() == tvm.pubkey(), 177, "Only owner function");
+		tvm.accept();
+		base.baseStation(thisUnit.baseStationAddress).deleteUnit(thisUnit.unitAddress);
+		thisUnit.baseStationAddress = _new_base;
+		base.baseStation(thisUnit.baseStationAddress).addUnit();
+	}
+
+	// Override чтобы сделать кастомную последовательность умирания
+	function lastThingBeforeDeath(address attacker) internal override {
+
+		// Метод базовой станции, к которой приписан юнит. Удаляет его из списка юнитов базовой станции.
+		base.baseStation(thisUnit.baseStationAddress).deleteUnit(thisUnit.unitAddress);
 		
+		// Отправить кристаллы и уничтожить контракт
+        sendAllMoneyAndDestroy(attacker);
+    }
+
+	// база вызывает этот метод в случае своей смерти
+	function deathBaseDestroyed(address attacker) external returns (bool) {
+
+		if (msg.sender == thisUnit.baseStationAddress) {
+
+			// Отправить кристаллы и уничтожить контракт
+        	sendAllMoneyAndDestroy(attacker);
+
+		}
+		else {
+			return false;
+		}
 	}
 
 }
