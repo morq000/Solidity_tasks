@@ -4,38 +4,32 @@ pragma AbiHeader expire;
 import 'game_object.sol';
 import 'battle_unit.sol';
 
-
-// Контракт "Базовая станция" (Родитель "Игровой объект")
-// - получить силу защиты
-// - Добавить военный юнит (добавляет адрес военного юнита в массив или другую структуру данных)
-// - Убрать военный юнит
-// - обработка гибели [вызов метода самоуничтожения + вызов метода смерти для каждого из военных юнитов базы]
-
-// p1 0:b03816e8a58ef9a4dad7c2547878a0ba1503214c223d3dc1a1802c541dca60ab
-
 contract baseStation is gameObject {
 
-    // Container for units belonging to this base
+    // Список юнитов на этой базе
     address[] units;
     
 	
-    // Lives and defence of a base station are initialized in a constructor while creating
+    // При создании задать кол-во жизней и защиту
 	constructor(int _lives, uint _defence) gameObject(_lives, _defence) public {
         require(tvm.pubkey() != 0, 101);
         require(msg.pubkey() == tvm.pubkey(), 102);
         tvm.accept();
     }
 
+    // Посмотреть список юнитов базы
     function getUnits() public view returns (address[]) {
         return units;
     }
 
+    // Добавить юнит в список юнитов. Вызывает сам юнит.
     function addUnit() external {
         tvm.accept();
         address unit_address = msg.sender;
         units.push(unit_address);
     }	
 
+    // Удалить юнит из списка. Вызывает сам юнит.
     function deleteUnit(address _unit_address) external {
         tvm.accept();
 
@@ -43,7 +37,7 @@ contract baseStation is gameObject {
             if (units[index] == _unit_address) {
                 delete units[index];
 
-                // Move array to delete 0:0000... value
+                // Сдвиг массива, чтобы не оставить пустых мест
                 for (uint k = index; k < units.length; k++) {
                     units[k] = units[k+1];
                     units.pop();
@@ -52,10 +46,11 @@ contract baseStation is gameObject {
         }      
     }	
 
+    // Метод обработки умирания
     function lastThingBeforeDeath(address attacker) internal override {
         tvm.accept();
 
-        // call deathBaseDestroyed() for every unit in array
+        // вызвать deathBaseDestroyed(), чтобы каждый юнит этой базы выпилился
         for (uint index = 0; index < units.length; index++) {
                 battleUnit(units[index]).deathBaseDestroyed(attacker);               
                 delete units[index];                
