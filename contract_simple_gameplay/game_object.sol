@@ -32,7 +32,7 @@ contract gameObject is IgameObject {
         tvm.accept();
 
         // Check that game unit will be given at least 1 life while spawn
-        // require(lives > int(1), 166, "New unit has to have at least 1 life");
+        // require(_lives > int(1), 166, "New unit has to have at least 1 life");
 
         defence = _defence;
         lives = _lives;
@@ -43,39 +43,32 @@ contract gameObject is IgameObject {
         require(msg.pubkey() == tvm.pubkey(), 102);
         tvm.accept();
         defence = _defence;
-        tvm.log(format("New defence value is {}", defence));
     }
 
     function getDamage(uint _attackPower) external override {
+        tvm.accept();
+
         uint damage;
 
         // Save attacker address to send money if unit dies
         address attacker = msg.sender;
-        tvm.log(format("Attacker address: {}", attacker));
 
         if (_attackPower > defence) {
 
             // Case unit got damaged
             damage = _attackPower - defence;
             lives -= int(damage);
-            logtvm(format("Unit got damaged by {}, lives remaining: {}", damage, lives));
-
+            
             // check if unit got killed by damage
             if (checkIfKilled()) {
-            logtvm("Unit lost all lives and got killed");
-
-            // Call function to process unit death
-            lastThingBeforeDeath(attacker);
+                // Call function to process unit death
+                lastThingBeforeDeath(attacker);
             }
-        }
-        else {
-            logtvm("Unit defence is bigger than attack value. Unit remains untouched.");
-        }
-
-        
+        }    
     }
 
-    function checkIfKilled() private view returns (bool) {
+    function checkIfKilled() internal returns (bool) {
+        tvm.accept();
         if (lives <= 0) {
             return true;
         } else {
@@ -83,14 +76,20 @@ contract gameObject is IgameObject {
         }
     }
 
-    function lastThingBeforeDeath(address attacker) internal virtual {
-        sendAllMoneyAndDestroy(attacker);
+    function lastThingBeforeDeath(address attacker) virtual internal {
     }
 
     function sendAllMoneyAndDestroy(address attacker) internal pure {
         tvm.accept();
         // Send all money to killer and destroy contract
         attacker.transfer(1, true, 160);
-        tvm.log("Contract destroyed and all funds sent to the attacker");
+    }
+
+    function getLives() public view returns (int) {
+        return lives;
+    }
+
+    function getDefence() public view returns (uint) {
+        return defence;
     }
 }

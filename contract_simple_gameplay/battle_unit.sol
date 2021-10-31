@@ -22,7 +22,7 @@ contract battleUnit is gameObject {
         uint attackPower;
 		address baseStationAddress;
     }
-	structUnit thisUnit;
+	structUnit public thisUnit;
 
 	// в конструкторе передаем колво жизней, защиту, атаку, 
 	// а также объект базовой станции (затем используем ее метод addUnit())
@@ -31,34 +31,24 @@ contract battleUnit is gameObject {
         require(msg.pubkey() == tvm.pubkey(), 102);
         tvm.accept();
 
-		thisUnit = structUnit(address(tvm.pubkey()), "none", _attack_power, _base1);
-		logtvm("Unit constructed");
+		thisUnit = structUnit(address(this), "none", _attack_power, _base1);
 
 		// Save base station address
 		thisUnit.baseStationAddress = _base1;
 		
 		// Call base station method to add unit to unit list
 		_base1.addUnit();	
-		logtvm("Unit added to base");
     }
 
 	// Атаковать другой юнит
-	function attackUnit(address victim) public {
-		gameObject(victim).getDamage(thisUnit.attackPower);
-		logtvm(format("attacked unit {} with {} power", victim, thisUnit.attackPower));
-	}
-
-	// Сменить базу - может только обладатель
-	function changeBase(address _new_base) external {
-		require(msg.pubkey() == tvm.pubkey(), 177, "Only owner function");
+	function attackUnit(IgameObject victimAddress) public {
 		tvm.accept();
-		base.baseStation(thisUnit.baseStationAddress).deleteUnit(thisUnit.unitAddress);
-		thisUnit.baseStationAddress = _new_base;
-		base.baseStation(thisUnit.baseStationAddress).addUnit();
+		victimAddress.getDamage(thisUnit.attackPower);
 	}
 
 	// Override чтобы сделать кастомную последовательность умирания
 	function lastThingBeforeDeath(address attacker) internal override {
+		tvm.accept();
 
 		// Метод базовой станции, к которой приписан юнит. Удаляет его из списка юнитов базовой станции.
 		base.baseStation(thisUnit.baseStationAddress).deleteUnit(thisUnit.unitAddress);
@@ -69,7 +59,7 @@ contract battleUnit is gameObject {
 
 	// база вызывает этот метод в случае своей смерти
 	function deathBaseDestroyed(address attacker) external returns (bool) {
-
+		tvm.accept();
 		if (msg.sender == thisUnit.baseStationAddress) {
 
 			// Отправить кристаллы и уничтожить контракт

@@ -11,6 +11,8 @@ import 'battle_unit.sol';
 // - Убрать военный юнит
 // - обработка гибели [вызов метода самоуничтожения + вызов метода смерти для каждого из военных юнитов базы]
 
+// p1 0:b03816e8a58ef9a4dad7c2547878a0ba1503214c223d3dc1a1802c541dca60ab
+
 contract baseStation is gameObject {
 
     // Container for units belonging to this base
@@ -24,14 +26,6 @@ contract baseStation is gameObject {
         tvm.accept();
     }
 
-    function getLives() public view returns (int) {
-        return lives;
-    }
-
-    function getDefence() public view returns (uint) {
-        return defence;
-    }
-
     function getUnits() public view returns (address[]) {
         return units;
     }
@@ -40,7 +34,6 @@ contract baseStation is gameObject {
         tvm.accept();
         address unit_address = msg.sender;
         units.push(unit_address);
-        logtvm(format("Unit added: {}", unit_address));
     }	
 
     function deleteUnit(address _unit_address) external {
@@ -55,8 +48,6 @@ contract baseStation is gameObject {
                     units[k] = units[k+1];
                     units.pop();
                 }
-
-                logtvm(format("Unit deleted: {}", _unit_address));
             }
         }      
     }	
@@ -66,11 +57,8 @@ contract baseStation is gameObject {
 
         // call deathBaseDestroyed() for every unit in array
         for (uint index = 0; index < units.length; index++) {
-
                 battleUnit(units[index]).deathBaseDestroyed(attacker);               
-                delete units[index];
-                
-
+                delete units[index];                
         }
 
         sendAllMoneyAndDestroy(attacker);
