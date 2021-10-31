@@ -1,0 +1,87 @@
+{
+	"ABI version": 2,
+	"version": "2.1",
+	"header": ["time", "expire"],
+	"functions": [
+		{
+			"name": "constructor",
+			"inputs": [
+				{"name":"_lives","type":"int256"},
+				{"name":"_defence","type":"uint256"},
+				{"name":"_attack_power","type":"uint256"},
+				{"name":"_base1","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "attackUnit",
+			"inputs": [
+				{"name":"victimAddress","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "deathBaseDestroyed",
+			"inputs": [
+				{"name":"attacker","type":"address"}
+			],
+			"outputs": [
+				{"name":"value0","type":"bool"}
+			]
+		},
+		{
+			"name": "setDefence",
+			"inputs": [
+				{"name":"_defence","type":"uint256"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "getDamage",
+			"inputs": [
+				{"name":"_attackPower","type":"uint256"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "getLives",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"value0","type":"int256"}
+			]
+		},
+		{
+			"name": "getDefence",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"value0","type":"uint256"}
+			]
+		},
+		{
+			"name": "thisUnit",
+			"inputs": [
+			],
+			"outputs": [
+				{"components":[{"name":"unitAddress","type":"address"},{"name":"unitType","type":"string"},{"name":"attackPower","type":"uint256"},{"name":"baseStationAddress","type":"address"}],"name":"thisUnit","type":"tuple"}
+			]
+		}
+	],
+	"data": [
+	],
+	"events": [
+	],
+	"fields": [
+		{"name":"_pubkey","type":"uint256"},
+		{"name":"_timestamp","type":"uint64"},
+		{"name":"_constructorFlag","type":"bool"},
+		{"name":"lives","type":"int256"},
+		{"name":"defence","type":"uint256"},
+		{"components":[{"name":"unitAddress","type":"address"},{"name":"unitType","type":"string"},{"name":"attackPower","type":"uint256"},{"name":"baseStationAddress","type":"address"}],"name":"thisUnit","type":"tuple"}
+	]
+}
