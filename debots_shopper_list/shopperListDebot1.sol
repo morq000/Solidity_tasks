@@ -77,13 +77,14 @@ contract shopperDebot1 is abstractDebot {
 			optional(uint256) pubkey=0;
 			IshopperList(m_address).addProductToBuy{
 				abiVer: 2,
+				extMsg: true,
                 sign: true,
                 pubkey: pubkey,
                 time: uint64(now),
                 expire: 0,
                 callbackId: tvm.functionId(onSuccess),
                 onErrorId: tvm.functionId(onError)
-		}(thisPurchaseName, res).extMsg;
+		}(thisPurchaseName, res);
 		}
 		else {
 			Terminal.print(0, "Что-то пошло не так. Попробуйте снова.");
@@ -111,13 +112,14 @@ contract shopperDebot1 is abstractDebot {
 		optional(uint256) pubkey = 0;
 		IshopperList(m_address).deleteProductfromList{
 				abiVer: 2,
+				extMsg: true,
                 sign: true,
                 pubkey: pubkey,
                 time: uint64(now),
                 expire: 0,
                 callbackId: tvm.functionId(onSuccess),
                 onErrorId: tvm.functionId(onError)
-		}(uint32(num)).extMsg;
+		}(uint32(num));
 	}
 
 	//////////////////////
@@ -128,13 +130,14 @@ contract shopperDebot1 is abstractDebot {
 		optional(uint256) none;
 		IshopperList(m_address).getPurchaseList{
 			abiVer: 2,
+			extMsg: true,
             sign: false,
             pubkey: none,
             time: uint64(now),
             expire: 0,
             callbackId: tvm.functionId(showPurchases_),
             onErrorId: 0
-		}().extMsg;
+		}();
 	}
 
 	function showPurchases_(IshopperList.purchase[] purchaseList) public {

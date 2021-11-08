@@ -115,14 +115,14 @@ abstract contract abstractDebot is Debot, Upgradable  {
 
 		IshopperList(m_address).getStats{
 			abiVer: 2,
-            //extMsg: true,
+            extMsg: true,
             sign: false,
             pubkey: none,
             time: uint64(now),
             expire: 0,
             callbackId: answerId,
             onErrorId: 0
-		}().extMsg;
+		}();
 	}
 
 	// присвоить значение переменной статистики покупок и вызвать меню дебота
@@ -140,14 +140,14 @@ abstract contract abstractDebot is Debot, Upgradable  {
 		TvmCell emptyCell;
 		Itransactable(m_signerAddress).sendTransaction{
 			abiVer: 2,
-			//extMsg: true,
+			extMsg: true,
 			sign: true,
 			pubkey: pubkey,
 			time: uint64(now),
 			expire: 0,
 			callbackId: tvm.functionId(waitingBeforeDeploy),
 			onErrorId: tvm.functionId(repeatCreditOnError)
-		}(m_address, INIT_BALANCE, false, 3, emptyCell).extMsg;
+		}(m_address, INIT_BALANCE, false, 3, emptyCell);
 	}
 
 	// вход в петлю для ожидания, когда статус поменяется на 0 и можно будет деплоить

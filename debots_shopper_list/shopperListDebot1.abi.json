@@ -1,6 +1,5 @@
 {
 	"ABI version": 2,
-	"version": "2.1",
 	"header": ["pubkey", "time", "expire"],
 	"functions": [
 		{
@@ -9,15 +8,15 @@
 			"inputs": [
 			],
 			"outputs": [
-				{"name":"name","type":"string"},
-				{"name":"version","type":"string"},
-				{"name":"publisher","type":"string"},
-				{"name":"key","type":"string"},
-				{"name":"author","type":"string"},
+				{"name":"name","type":"bytes"},
+				{"name":"version","type":"bytes"},
+				{"name":"publisher","type":"bytes"},
+				{"name":"key","type":"bytes"},
+				{"name":"author","type":"bytes"},
 				{"name":"support","type":"address"},
-				{"name":"hello","type":"string"},
-				{"name":"language","type":"string"},
-				{"name":"dabi","type":"string"},
+				{"name":"hello","type":"bytes"},
+				{"name":"language","type":"bytes"},
+				{"name":"dabi","type":"bytes"},
 				{"name":"icon","type":"bytes"}
 			]
 		},
@@ -32,7 +31,7 @@
 		{
 			"name": "addPurchaseName_",
 			"inputs": [
-				{"name":"value","type":"string"}
+				{"name":"value","type":"bytes"}
 			],
 			"outputs": [
 			]
@@ -40,7 +39,7 @@
 		{
 			"name": "addPurchase_",
 			"inputs": [
-				{"name":"value","type":"string"}
+				{"name":"value","type":"bytes"}
 			],
 			"outputs": [
 			]
@@ -56,7 +55,7 @@
 		{
 			"name": "deletePurchase_",
 			"inputs": [
-				{"name":"value","type":"string"}
+				{"name":"value","type":"bytes"}
 			],
 			"outputs": [
 			]
@@ -72,7 +71,7 @@
 		{
 			"name": "showPurchases_",
 			"inputs": [
-				{"components":[{"name":"id","type":"uint32"},{"name":"name","type":"string"},{"name":"quantity","type":"uint256"},{"name":"timeCreated","type":"uint64"},{"name":"isBought","type":"bool"},{"name":"price","type":"uint256"}],"name":"purchaseList","type":"tuple[]"}
+				{"components":[{"name":"id","type":"uint32"},{"name":"name","type":"bytes"},{"name":"quantity","type":"uint256"},{"name":"timeCreated","type":"uint64"},{"name":"isBought","type":"bool"},{"name":"price","type":"uint256"}],"name":"purchaseList","type":"tuple[]"}
 			],
 			"outputs": [
 			]
@@ -103,7 +102,7 @@
 		{
 			"name": "saveOwnerPubkey",
 			"inputs": [
-				{"name":"value","type":"string"}
+				{"name":"value","type":"bytes"}
 			],
 			"outputs": [
 			]
@@ -195,15 +194,15 @@
 			],
 			"outputs": [
 				{"name":"options","type":"uint8"},
-				{"name":"debotAbi","type":"string"},
-				{"name":"targetAbi","type":"string"},
+				{"name":"debotAbi","type":"bytes"},
+				{"name":"targetAbi","type":"bytes"},
 				{"name":"targetAddr","type":"address"}
 			]
 		},
 		{
 			"name": "setABI",
 			"inputs": [
-				{"name":"dabi","type":"string"}
+				{"name":"dabi","type":"bytes"}
 			],
 			"outputs": [
 			]
@@ -219,22 +218,5 @@
 	"data": [
 	],
 	"events": [
-	],
-	"fields": [
-		{"name":"_pubkey","type":"uint256"},
-		{"name":"_timestamp","type":"uint64"},
-		{"name":"_constructorFlag","type":"bool"},
-		{"name":"m_options","type":"uint8"},
-		{"name":"m_debotAbi","type":"optional(string)"},
-		{"name":"m_targetAbi","type":"optional(string)"},
-		{"name":"m_target","type":"optional(address)"},
-		{"name":"m_icon","type":"bytes"},
-		{"name":"m_ownerPubkey","type":"uint256"},
-		{"name":"m_signerAddress","type":"address"},
-		{"name":"m_shopperListCode","type":"cell"},
-		{"name":"m_address","type":"address"},
-		{"components":[{"name":"purchased","type":"uint256"},{"name":"notYetPurchased","type":"uint256"},{"name":"totalSpent","type":"uint256"}],"name":"m_summary","type":"tuple"},
-		{"name":"INIT_BALANCE","type":"uint256"},
-		{"name":"thisPurchaseName","type":"string"}
 	]
 }

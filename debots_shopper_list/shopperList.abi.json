@@ -1,6 +1,5 @@
 {
 	"ABI version": 2,
-	"version": "2.1",
 	"header": ["pubkey", "time", "expire"],
 	"functions": [
 		{
@@ -24,13 +23,13 @@
 			"inputs": [
 			],
 			"outputs": [
-				{"components":[{"name":"id","type":"uint32"},{"name":"name","type":"string"},{"name":"quantity","type":"uint256"},{"name":"timeCreated","type":"uint64"},{"name":"isBought","type":"bool"},{"name":"price","type":"uint256"}],"name":"purchaseList","type":"tuple[]"}
+				{"components":[{"name":"id","type":"uint32"},{"name":"name","type":"bytes"},{"name":"quantity","type":"uint256"},{"name":"timeCreated","type":"uint64"},{"name":"isBought","type":"bool"},{"name":"price","type":"uint256"}],"name":"purchaseList","type":"tuple[]"}
 			]
 		},
 		{
 			"name": "addProductToBuy",
 			"inputs": [
-				{"name":"_name","type":"string"},
+				{"name":"_name","type":"bytes"},
 				{"name":"_quantity","type":"uint256"}
 			],
 			"outputs": [
@@ -57,13 +56,5 @@
 	"data": [
 	],
 	"events": [
-	],
-	"fields": [
-		{"name":"_pubkey","type":"uint256"},
-		{"name":"_timestamp","type":"uint64"},
-		{"name":"_constructorFlag","type":"bool"},
-		{"name":"m_ownerPubkey","type":"uint256"},
-		{"name":"m_purchaseId","type":"uint32"},
-		{"components":[{"name":"id","type":"uint32"},{"name":"name","type":"string"},{"name":"quantity","type":"uint256"},{"name":"timeCreated","type":"uint64"},{"name":"isBought","type":"bool"},{"name":"price","type":"uint256"}],"name":"purchases","type":"map(uint32,tuple)"}
 	]
 }
