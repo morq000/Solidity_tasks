@@ -17,6 +17,15 @@ interface IshopperList {
 		uint totalSpent;
 	}
 
+	struct purchase {
+		uint32 id;
+		string name;
+		uint quantity;
+		uint64 timeCreated;
+		bool isBought;
+		uint price;
+	}
+
 	// - список покупок-статистика о покупках
 	function getStats() external view returns (purchaseSummary summary);
 
@@ -28,4 +37,6 @@ interface IshopperList {
 
 	// - купить [помечает, чты вы купили; купить обратно, то есть сбросить флаг покупки  не надо делать]. параметры: (ID, цена)
 	function buyProduct(uint32 Id, uint price) external;
+
+	function getPurchaseList() external returns (purchase[] purchaseList);
 }

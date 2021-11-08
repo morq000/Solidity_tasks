@@ -35,14 +35,6 @@ contract shopperList is IshopperList {
 // - когда заведена
 // - флаг, что куплена (при заведении в список всегда false)
 // - цена, за которую купили [за все единиицы сразу] (при заведении в список всегда 0)
-	struct purchase {
-		uint32 id;
-		string name;
-		uint quantity;
-		uint64 timeCreated;
-		bool isBought;
-		uint price;
-	}
 
 	modifier onlyOwner {
         require(msg.pubkey() == m_ownerPubkey, 101);
@@ -87,7 +79,7 @@ contract shopperList is IshopperList {
 	}
 
 	// Вывод списка покупок
-	function getPurchaseList() public view onlyOwner returns(purchase[] purchaseList){
+	function getPurchaseList() public override onlyOwner returns(purchase[] purchaseList){
 		tvm.accept();
 		for ((uint32 id, purchase _purchase) : purchases) {
 			purchaseList.push(_purchase);
