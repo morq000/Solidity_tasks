@@ -5,12 +5,6 @@ pragma AbiHeader pubkey;
 
 interface IshopperList {
 
-		
-	// Структура "Саммари покупок"
-	// - сколько предметов в списке "оплачено"
-	// - сколько предметов в списке "не оплачено"
-	// - на какую сумму всего было оплачено
-
 	struct purchaseSummary {
 		uint purchased;
 		uint notYetPurchased;
