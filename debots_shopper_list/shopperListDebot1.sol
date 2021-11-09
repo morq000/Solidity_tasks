@@ -27,12 +27,12 @@ contract shopperDebot1 is abstractDebot {
         address support, string hello, string language, string dabi, bytes icon
     ) {
         name = "DeBot Список покупок v.1";
-        version = "0.0.1";
+        version = "0.0.2";
         publisher = "morq000";
         key = "Purchase list";
         author = "morq000";
-        support = address.makeAddrStd(0, 0x66e01d6df5a8d7677d9ab2daf7f258f1e2a7fe73da5320300395f99e01dc3b5f);
-        hello = "Привет, я дебот по наполнению списка покупок";
+        support = address.makeAddrStd(0, 0x2e08eb28bfaab81e20f54b03a55a46eb1ca3148980795e8fc443486eade98c39);
+        hello = "Привет, я дебот по наполнению списка покупок.";
         language = "en";
         dabi = m_debotAbi.get();
         icon = m_icon;
@@ -52,7 +52,7 @@ contract shopperDebot1 is abstractDebot {
 			[
 				MenuItem("Добавить новую покупку", "", tvm.functionId(addPurchase)),
 				MenuItem("Удалить покупку", "", tvm.functionId(deletePurchase)),
-				MenuItem("Вывести список", "", tvm.functionId(getPurchaseList))
+				MenuItem("Вывести список", "", tvm.functionId(getPurchases))
 			]
 		);
 	}
@@ -102,7 +102,7 @@ contract shopperDebot1 is abstractDebot {
 			Terminal.input(tvm.functionId(deletePurchase_), "Введите номер покупки для удаления", false);
 		}
 		else {
-			Terminal.print(0, "В вашем текущем списке нет запланированных покупок.");
+			Terminal.print(0, "В вашем текущем списке нет запланированных покупок");
 			_giveMenu();
 		}
 	}
@@ -123,9 +123,9 @@ contract shopperDebot1 is abstractDebot {
 	}
 
 	//////////////////////
-	// Вывод статистики///
+	// Вывод списка покупок///
 	//////////////////////
-	function getPurchaseList(uint32 index) public view {
+	function getPurchases(uint32 index) public view {
 		index = index;
 		optional(uint256) none;
 		IshopperList(m_address).getPurchaseList{

@@ -38,5 +38,5 @@ interface IshopperList {
 	// - купить [помечает, чты вы купили; купить обратно, то есть сбросить флаг покупки  не надо делать]. параметры: (ID, цена)
 	function buyProduct(uint32 Id, uint price) external;
 
-	function getPurchaseList() external view returns (purchase[] purchaseList);
+	function getPurchaseList() external returns (purchase[] purchaseList);
 }

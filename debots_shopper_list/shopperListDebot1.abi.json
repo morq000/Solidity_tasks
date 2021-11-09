@@ -61,7 +61,7 @@
 			]
 		},
 		{
-			"name": "getPurchaseList",
+			"name": "getPurchases",
 			"inputs": [
 				{"name":"index","type":"uint32"}
 			],

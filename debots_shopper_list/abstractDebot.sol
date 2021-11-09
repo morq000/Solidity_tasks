@@ -83,13 +83,13 @@ abstract contract abstractDebot is Debot, Upgradable  {
 		(uint res, bool status) = stoi("0x"+value);
 		if (status) {
 			m_ownerPubkey = res;
-			Terminal.print(0, "Посмотрим, есть ли у вас уже существующий список покупок");
+			Terminal.print(0, "Посмотрим, есть ли у вас уже существующий список покупок...");
 			// получаем deploy state из кода конртакта Список покупок и сохраненного публичного ключа владельца
 			//TvmCell deployState  = tvm.insertPubkey(m_shopperListCode, m_ownerPubkey);
 			TvmCell deployState  = tvm.insertPubkey(m_shopperStateInit, m_ownerPubkey);
 			// адрес будущего контракта Список покупок
 			m_address = address.makeAddrStd(0, tvm.hash(deployState));
-			Terminal.print(0, format("Адрес контракта Список покупок: {}", m_address));
+			Terminal.print(0, format("Адрес контракта -Список покупок-: {}", m_address));
 			// Определим тип контракта по этому адресу и вызовем колбэк
 			Sdk.getAccountType(tvm.functionId(checkAccountStatus), m_address);
 
@@ -109,7 +109,7 @@ abstract contract abstractDebot is Debot, Upgradable  {
 		} else if (acc_type==-1) { // контракт неактивен, нужно его создать и задеплоить
 			Terminal.print(0, "У вас еще нет списка покупок, поэтому будет создан новый список. Необходимо пополнить баланс вашего списка на 0.199 ton");
 			// вызов библиотечного метода для получения адреса, с которого спишутся монеты
-			AddressInput.get(tvm.functionId(creditShopperList), "Выберите способ оплаты: ");
+			AddressInput.get(tvm.functionId(creditShopperList), "Необходимо подписать две транзакции. Выберите способ оплаты: ");
 		}
 		else if (acc_type==0) { // аккаунт есть, но не инициализирован
 			Terminal.print(0, "Деплоим новый контракт. Если произойдет ошибка, проверьте баланс аккаунта Список покупок");
@@ -135,7 +135,7 @@ abstract contract abstractDebot is Debot, Upgradable  {
             time: uint64(now),
             expire: 0,
             callbackId: answerId,
-            onErrorId: 0
+            onErrorId: tvm.functionId(onError)
 		}();
 	}
 
@@ -238,7 +238,7 @@ abstract contract abstractDebot is Debot, Upgradable  {
 
 	// Обработка ошибок при работе со списком покупок
 	function onError(uint32 sdkError, uint32 exitCode) public {
-        Terminal.print(0, format("Operation failed. sdkError {}, exitCode {}", sdkError, exitCode));
+        Terminal.print(0, format("Произошла ошибка. sdkError {}, exitCode {}", sdkError, exitCode));
         _giveMenu();
     }
 
