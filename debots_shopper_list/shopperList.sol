@@ -5,36 +5,22 @@ pragma AbiHeader pubkey;
 
 import "IshopperList.sol";
 
-contract shopperList is IshopperList {
+contract shopperList {
 
-// ------------------------------
-// Интерфейсы:
+	struct purchaseSummary {
+		uint purchased;
+		uint notYetPurchased;
+		uint totalSpent;
+	}
 
-// "Список покупок"
-// - ...
-
-// "Transactable"
-// - sendTransaction
-
-// Абстрактный контракт
-// HasConstructorWithPubKey
-
-	// Смарт-контракт Списка покупок:
-// - конструктор
-// - контроль за правами доступа (onlyOwner)
-// - список покупок-статистика о покупках
-// - добавление покупки в список (параметры: название продукта, количество)
-// - удаление покупки из списка
-// - купить [помечает, чты вы купили; купить обратно, то есть сбросить флаг покупки  не надо делать]. параметры: (ID, цена)
-
-// Структура:
-// "Покупка"
-// - идентификатор/номер
-// - название
-// - количество (сколько надо купить)
-// - когда заведена
-// - флаг, что куплена (при заведении в список всегда false)
-// - цена, за которую купили [за все единиицы сразу] (при заведении в список всегда 0)
+	struct purchase {
+		uint32 id;
+		string name;
+		uint quantity;
+		uint64 timeCreated;
+		bool isBought;
+		uint price;
+	}
 
 	modifier onlyOwner {
         require(msg.pubkey() == m_ownerPubkey, 101);
@@ -60,7 +46,7 @@ contract shopperList is IshopperList {
 	// Method definitions
 
 	// Вывод статистики. Можно выполнять off-chain.
-	function getStats() public view override returns(purchaseSummary summary) {
+	function getStats() public view returns(purchaseSummary summary) {
 		uint purchased;
 		uint notYetPurchased;
 		uint totalSpent;
@@ -79,7 +65,7 @@ contract shopperList is IshopperList {
 	}
 
 	// Вывод списка покупок
-	function getPurchaseList() public override view returns(purchase[] purchaseList){
+	function getPurchaseList() public view returns(purchase[] purchaseList){
 		uint32 pid;
 		string name;
 		uint quantity;
@@ -100,14 +86,14 @@ contract shopperList is IshopperList {
 	}
 
 	// - добавление покупки в список (параметры: название продукта, количество)
-	function addProductToBuy(string _name, uint _quantity) public override onlyOwner {
+	function addProductToBuy(string _name, uint _quantity) public onlyOwner {
 		tvm.accept();
 		m_purchaseId++;
 		purchases[m_purchaseId] = purchase(m_purchaseId, _name, _quantity, now, false, 0);
 	}
 
 	// - удаление покупки из списка
-	function deleteProductfromList(uint32 Id) public override onlyOwner {
+	function deleteProductfromList(uint32 Id) public onlyOwner {
 		
 		// Проверить, есть ли в маппинге значение для данного Id.
 		require(purchases.exists(Id), 104, "Продукт не найден");
@@ -118,7 +104,7 @@ contract shopperList is IshopperList {
 	}
 
 	// купить [помечает, чты вы купили]. параметры: (ID, цена)
-	function buyProduct(uint32 Id, uint price) public override onlyOwner {
+	function buyProduct(uint32 Id, uint price) public onlyOwner {
 
 		// Проверить, есть ли в маппинге значение для данного Id.
 		optional(purchase) _purchase = purchases.fetch(Id);
