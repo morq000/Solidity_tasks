@@ -3,8 +3,6 @@ pragma AbiHeader expire;
 pragma AbiHeader time;
 pragma AbiHeader pubkey;
 
-import "IshopperList.sol";
-
 contract shopperList {
 
 	struct purchaseSummary {
