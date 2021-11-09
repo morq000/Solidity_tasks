@@ -30,15 +30,26 @@ abstract contract abstractDebot is Debot, Upgradable  {
 	address m_signerAddress; // адрес кошелька владельца контракта
 
 	TvmCell m_shopperListCode; // код целевого контракта списка покупок
+	TvmCell m_shopperStateInit;
+	TvmCell m_shopperListData;
 	address m_address; // адрес конракта списка покупок
 	purchaseSummary m_summary; // текущая сводка по списку покупок
 		
-	uint INIT_BALANCE = 199000000; //начальный баланс контракта Список покупок при деплое
+	uint128 INIT_BALANCE = 199000000; //начальный баланс контракта Список покупок при деплое
 
 	struct purchaseSummary {
 		uint purchased;
 		uint notYetPurchased;
 		uint totalSpent;
+	}
+
+	struct purchase {
+		uint32 id;
+		string name;
+		uint quantity;
+		uint64 timeCreated;
+		bool isBought;
+		uint price;
 	}
 
 	// variable for temporary keeping new purchase name
@@ -48,10 +59,11 @@ abstract contract abstractDebot is Debot, Upgradable  {
 	function _giveMenu() virtual internal;
 	
 	// Задать значение переменной, содержащей в себе код заливаемого контракта
-	function setShopperListCode(TvmCell code) public {
+	function setShopperListCode(TvmCell code, TvmCell data) public {
 		require(msg.pubkey() == tvm.pubkey(), 101, "Can't be called by non-owner");
 		tvm.accept();
-		m_shopperListCode = code;
+		//m_shopperListCode = code;
+		m_shopperStateInit = tvm.buildStateInit(code, data);
 	}
 
 	// Точка входа в бота
@@ -61,7 +73,7 @@ abstract contract abstractDebot is Debot, Upgradable  {
 
 	// возврат ID используемых интерфейсов
 	function getRequiredInterfaces() public view override returns (uint256[] interfaces) {
-        return [ Terminal.ID, Menu.ID, AddressInput.ID, ConfirmInput.ID ];
+        return [ Terminal.ID, Menu.ID, AddressInput.ID, ConfirmInput.ID, Sdk.ID];
     }
 
 
@@ -71,19 +83,21 @@ abstract contract abstractDebot is Debot, Upgradable  {
 		(uint res, bool status) = stoi("0x"+value);
 		if (status) {
 			m_ownerPubkey = res;
-
 			Terminal.print(0, "Посмотрим, есть ли у вас уже существующий список покупок");
 			// получаем deploy state из кода конртакта Список покупок и сохраненного публичного ключа владельца
-			TvmCell deployState  = tvm.insertPubkey(m_shopperListCode, m_ownerPubkey);
+			//TvmCell deployState  = tvm.insertPubkey(m_shopperListCode, m_ownerPubkey);
+			TvmCell deployState  = tvm.insertPubkey(m_shopperStateInit, m_ownerPubkey);
 			// адрес будущего контракта Список покупок
 			m_address = address.makeAddrStd(0, tvm.hash(deployState));
-			Terminal.print(0, format("Адрес конртакта Список покупок: {}", m_address));
+			Terminal.print(0, format("Адрес контракта Список покупок: {}", m_address));
 			// Определим тип контракта по этому адресу и вызовем колбэк
 			Sdk.getAccountType(tvm.functionId(checkAccountStatus), m_address);
 
 		}
 		else {
-			Terminal.print(tvm.functionId(saveOwnerPubkey), "Введенный публичный ключ имеет неправильный формат. Попробуйте еще раз.");
+			Terminal.print(tvm.functionId(saveOwnerPubkey), "Введенный публичный ключ имеет неправильный формат. Попробуйте ввести ключ еще раз: ");
+			// Todo убрать Start
+			// start();
 		}
 	}
 
@@ -136,8 +150,12 @@ abstract contract abstractDebot is Debot, Upgradable  {
 	//
 	function creditShopperList(address value) public {
 		m_signerAddress = value;
+		//
+		Terminal.print(0, format("Got signer address {}", m_signerAddress));
 		optional(uint256) pubkey = 0;
 		TvmCell emptyCell;
+		//
+		Terminal.print(0, "Trying to call sendTransaction method");
 		Itransactable(m_signerAddress).sendTransaction{
 			abiVer: 2,
 			extMsg: true,
@@ -159,7 +177,7 @@ abstract contract abstractDebot is Debot, Upgradable  {
 	// Если заброс монет не прошел, повторить
 	function repeatCreditOnError(uint32 sdkError, uint32 exitCode) public {
 		// вывести информацию об ошибках
-		Terminal.print(0, format("Произошла ошибка. sdkError {}, exitCode {}", sdkError, exitCode));
+		Terminal.print(0, format("Произошла ошибка при отправке монет на адрес контракта. sdkError {}, exitCode {}", sdkError, exitCode));
         // повторяем заброс монет
 		creditShopperList(m_signerAddress);
 	}
@@ -178,7 +196,8 @@ abstract contract abstractDebot is Debot, Upgradable  {
 	//
 	function deploy() private view {
 		// создание deploy state из кода контракта списка покупок и pubkey владельца
-		TvmCell deployState = tvm.insertPubkey(m_shopperListCode, m_ownerPubkey);
+		//TvmCell deployState = tvm.insertPubkey(m_shopperListCode, m_ownerPubkey);
+		TvmCell deployState = tvm.insertPubkey(m_shopperStateInit, m_ownerPubkey);
 		optional(uint256) nonePubkey;
 		// создаем внешнее сообщение для деплоя контракта список покупок
 		TvmCell deployMessage = tvm.buildExtMsg({

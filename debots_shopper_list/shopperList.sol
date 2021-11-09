@@ -79,10 +79,23 @@ contract shopperList is IshopperList {
 	}
 
 	// Вывод списка покупок
-	function getPurchaseList() public override onlyOwner returns(purchase[] purchaseList){
-		tvm.accept();
+	function getPurchaseList() public override view returns(purchase[] purchaseList){
+		uint32 pid;
+		string name;
+		uint quantity;
+		uint64 timeCreated;
+		bool isBought;
+		uint price;
+
 		for ((uint32 id, purchase _purchase) : purchases) {
-			purchaseList.push(_purchase);
+			pid = _purchase.id;
+			name = _purchase.name;
+			quantity = _purchase.quantity;
+			timeCreated = _purchase.timeCreated;
+			isBought = _purchase.isBought;
+			price = _purchase.price;
+
+			purchaseList.push(purchase(pid, name, quantity, timeCreated, isBought, price));
 		}
 	}
 

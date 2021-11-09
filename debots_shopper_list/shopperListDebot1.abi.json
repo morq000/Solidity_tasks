@@ -79,7 +79,8 @@
 		{
 			"name": "setShopperListCode",
 			"inputs": [
-				{"name":"code","type":"cell"}
+				{"name":"code","type":"cell"},
+				{"name":"data","type":"cell"}
 			],
 			"outputs": [
 			]

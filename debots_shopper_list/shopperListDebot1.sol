@@ -136,15 +136,15 @@ contract shopperDebot1 is abstractDebot {
             time: uint64(now),
             expire: 0,
             callbackId: tvm.functionId(showPurchases_),
-            onErrorId: 0
+            onErrorId: tvm.functionId(onError)
 		}();
 	}
 
-	function showPurchases_(IshopperList.purchase[] purchaseList) public {
+	function showPurchases_(purchase[] purchaseList) public {
 		if (purchaseList.length > 0) {
 			Terminal.print(0, "Ваш список покупок:");
 			for (uint256 index = 0; index < purchaseList.length; index++) {
-				IshopperList.purchase _pur = purchaseList[index];
+				purchase _pur = purchaseList[index];
 				string _isBought;
 				if (_pur.isBought) {
 					_isBought = "да";
