@@ -17,12 +17,6 @@ import "IshopperList.sol";
 import "abstractShopperList.sol";
 
 abstract contract abstractDebot is Debot, Upgradable  {
-
-// 1. Абстрактный контракт дебота. "Дебот инициализация списка"
-// Содержит в себе методы, связанные с работой со списком покупок в целом. 
-// Прежде всего это проверка того, создан ли уже список покупок и все что с этим связано.
-// Называться у вас методы будут инаце, но в целом это:
-// setTodoCode, savePublicKey, checkStatus, creditAccount, waitBeforeDeploy, checkIfStatusIs0, deploy
 	
 	bytes m_icon; // иконка дебота
 
@@ -30,9 +24,9 @@ abstract contract abstractDebot is Debot, Upgradable  {
 	address m_signerAddress; // адрес кошелька владельца контракта
 
 	TvmCell m_shopperListCode; // код целевого контракта списка покупок
-	TvmCell m_shopperStateInit;
-	TvmCell m_shopperListData;
-	address m_address; // адрес конракта списка покупок
+	TvmCell m_shopperStateInit; // stateinit целевого контракта списка покупок
+	TvmCell m_shopperListData; // data целевого контракта списка покупок
+	address m_address; // адрес целевого контракта списка покупок
 	purchaseSummary m_summary; // текущая сводка по списку покупок
 		
 	uint128 INIT_BALANCE = 199000000; //начальный баланс контракта Список покупок при деплое
@@ -52,13 +46,13 @@ abstract contract abstractDebot is Debot, Upgradable  {
 		uint price;
 	}
 
-	// variable for temporary keeping new purchase name
+	// переменная для временного хранения имени покупки во время добавления
 	string thisPurchaseName;
 
-	// реализовать разное меню в каждом из ботов
+	// Выдача меню реализована по-разному в каждом из ботов
 	function _giveMenu() virtual internal;
 	
-	// Задать значение переменной, содержащей в себе код заливаемого контракта
+	// Задать значение переменной, содержащей в себе stateinit заливаемого контракта
 	function setShopperListCode(TvmCell code, TvmCell data) public {
 		require(msg.pubkey() == tvm.pubkey(), 101, "Can't be called by non-owner");
 		tvm.accept();
@@ -75,7 +69,6 @@ abstract contract abstractDebot is Debot, Upgradable  {
 	function getRequiredInterfaces() public view override returns (uint256[] interfaces) {
         return [ Terminal.ID, Menu.ID, AddressInput.ID, ConfirmInput.ID, Sdk.ID];
     }
-
 
 	// првоерка и сохранение введенного pubkey в качестве публичного ключа владельца 
 	function saveOwnerPubkey(string value) public {
@@ -96,8 +89,6 @@ abstract contract abstractDebot is Debot, Upgradable  {
 		}
 		else {
 			Terminal.print(tvm.functionId(saveOwnerPubkey), "Введенный публичный ключ имеет неправильный формат. Попробуйте ввести ключ еще раз: ");
-			// Todo убрать Start
-			// start();
 		}
 	}
 
@@ -219,10 +210,6 @@ abstract contract abstractDebot is Debot, Upgradable  {
 		tvm.sendrawmsg(deployMessage, 1);
 	}
 	
-
-	///////////////
-	// Коллбэки////
-	///////////////
 	// обновить статистику покупок и показать основное меню
 	function onSuccess() public view {
 		_getShopperStats(tvm.functionId(setStatsAndGiveMenu));
@@ -243,7 +230,7 @@ abstract contract abstractDebot is Debot, Upgradable  {
     }
 
 	/////////////////////
-	// Реазизация Upgradable
+	//Upgradable interface
 	/////////////////////
 	function onCodeUpgrade() internal override {
         tvm.resetStorage();
