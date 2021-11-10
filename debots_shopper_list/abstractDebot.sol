@@ -16,6 +16,7 @@ import "Itransactable.sol";
 import "IshopperList.sol";
 import "abstractShopperList.sol";
 
+// Абстрактный класс для загрузки и создания контракта Списка покупок
 abstract contract abstractDebot is Debot, Upgradable  {
 	
 	bytes m_icon; // иконка дебота
@@ -45,9 +46,6 @@ abstract contract abstractDebot is Debot, Upgradable  {
 		bool isBought;
 		uint price;
 	}
-
-	// переменная для временного хранения имени покупки во время добавления
-	string thisPurchaseName;
 
 	// Выдача меню реализована по-разному в каждом из ботов
 	function _giveMenu() virtual internal;
