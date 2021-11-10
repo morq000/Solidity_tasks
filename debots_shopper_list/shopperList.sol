@@ -3,6 +3,7 @@ pragma AbiHeader expire;
 pragma AbiHeader time;
 pragma AbiHeader pubkey;
 
+// Целевой контракт списка покупок
 contract shopperList {
 
 	struct purchaseSummary {
@@ -43,7 +44,7 @@ contract shopperList {
 	//
 	// Method definitions
 
-	// Вывод статистики. Можно выполнять off-chain.
+	// Вывод статистики.
 	function getStats() public view returns(purchaseSummary summary) {
 		uint purchased;
 		uint notYetPurchased;
@@ -62,7 +63,7 @@ contract shopperList {
 		summary = purchaseSummary(purchased, notYetPurchased, totalSpent);
 	}
 
-	// Вывод списка покупок
+	// Вывод списка покупок.
 	function getPurchaseList() public view returns(purchase[] purchaseList){
 		uint32 pid;
 		string name;
@@ -83,14 +84,14 @@ contract shopperList {
 		}
 	}
 
-	// - добавление покупки в список (параметры: название продукта, количество)
+	// добавление покупки в список (параметры: название продукта, количество)
 	function addProductToBuy(string _name, uint _quantity) public onlyOwner {
 		tvm.accept();
 		m_purchaseId++;
 		purchases[m_purchaseId] = purchase(m_purchaseId, _name, _quantity, now, false, 0);
 	}
 
-	// - удаление покупки из списка
+	// удаление покупки из списка
 	function deleteProductfromList(uint32 Id) public onlyOwner {
 		
 		// Проверить, есть ли в маппинге значение для данного Id.
@@ -118,5 +119,4 @@ contract shopperList {
 		// Обновить информацию о покупке в списке
 		purchases[Id] = thisPurchase;
 	}
-
 }

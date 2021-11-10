@@ -29,7 +29,7 @@ contract shopperDebot1 is abstractDebot, commonMethodsDebot {
     }
 
 	function _giveMenu() internal override {
-		string separator = '_____________________________________________';
+		string separator = '____________________________________________';
 		// использование библиотечного метода для вызова меню
 		Menu.select(
 			format(

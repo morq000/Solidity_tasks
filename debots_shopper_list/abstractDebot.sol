@@ -49,6 +49,14 @@ abstract contract abstractDebot is Debot, Upgradable  {
 
 	// Выдача меню реализована по-разному в каждом из ботов
 	function _giveMenu() virtual internal;
+
+	// Установить иконку бота
+	function setIcon(bytes icon) public {
+		require(msg.pubkey() == tvm.pubkey(), 100);
+		tvm.accept();
+		m_icon = icon;
+    }
+	
 	
 	// Задать значение переменной, содержащей в себе stateinit заливаемого контракта
 	function setShopperListCode(TvmCell code, TvmCell data) public {
