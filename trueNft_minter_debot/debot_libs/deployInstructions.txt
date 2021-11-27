@@ -1,0 +1,85 @@
+tonos-cli decode stateinit shopperList.tvc --tvc > shopperListCellCode.decode.json
+
+
+tonos-cli genaddr shopperListDebot1.tvc shopperListDebot1.abi.json --genkey shopperListDebot1.keys.json > log.log
+
+ =- Заполнить файл params.json
+В моем случае:
+{
+    "dest": "0:d995eb5ae586e84c230302d0612a50c13b755b471fc19c3cb5cfcab52390a3a3",
+    "amount": 10000000000
+}
+
+Закинуть денег
+tonos-cli --url https://net.ton.dev call --abi ../base/Local_giver.abi.json 0:841288ed3b55d9cdafa806807f02a0ae0c169aa5edfe88a789a6482429756a94 sendGrams params.json
+вместо этого EXTRATON
+
+Задеплоить
+tonos-cli --url https://net.ton.dev deploy shopperListDebot1.tvc "{}" --sign shopperListDebot1.keys.json --abi shopperListDebot1.abi.json
+
+bash
++ cat shopperListDebot1.abi.json | xxd -p -c 20000
+exit
++ Записать dabi.json - в моем случае:
+{
+    "dabi": "7b0d0a0........d0a7d0d0a"
+}
+
+Установить dabi
+tonos-cli --url https://net.ton.dev call 0:2da63cf4b4ed7a26612397ea281cf8c744df382c0d597f426962697d6c81b7a8 setABI dabi.json --sign shopperListDebot1.keys.json --abi shopperListDebot1.abi.json
+
+вызвать
+=- tonos-cli --url https://net.ton.dev run --abi shopperListDebot1.abi.json 0:2da63cf4b4ed7a26612397ea281cf8c744df382c0d597f426962697d6c81b7a8 getDebotInfo "{}"
+
+Todo.decode.json
+tonos-cli --url https://net.ton.dev call --abi shopperListDebot1.abi.json --sign shopperListDebot1.keys.json 0:2da63cf4b4ed7a26612397ea281cf8c744df382c0d597f426962697d6c81b7a8 setShopperListCode shopperListCellCode.json
+
+
+Вызываем дебота
+=- tonos-cli --url https://net.ton.dev debot --debug fetch 0:2da63cf4b4ed7a26612397ea281cf8c744df382c0d597f426962697d6c81b7a8
+https://web.ton.surf/debot?address=0%3A2da63cf4b4ed7a26612397ea281cf8c744df382c0d597f426962697d6c81b7a8&net=devnet&restart=true
+
+
+Localhost:
+
+http://127.0.0.1
+
+tonos-cli decode stateinit shopperList.tvc --tvc > shopperListCellCode.decode.json
+
+
+tonos-cli genaddr shopperListDebot1.tvc shopperListDebot1.abi.json --genkey shopperListDebot1.keys.json > log.log
+
+ =- Заполнить файл params.json
+В моем случае:
+{
+    "dest": "0:d995eb5ae586e84c230302d0612a50c13b755b471fc19c3cb5cfcab52390a3a3",
+    "amount": 10000000000
+}
+
+Закинуть денег
+tonos-cli --url http://127.0.0.1 call --abi Local_giver.abi.json 0:841288ed3b55d9cdafa806807f02a0ae0c169aa5edfe88a789a6482429756a94 sendGrams params.json
+вместо этого EXTRATON
+
+Задеплоить
+tonos-cli --url http://127.0.0.1 deploy shopperListDebot1.tvc "{}" --sign shopperListDebot1.keys.json --abi shopperListDebot1.abi.json
+
+bash
++ cat shopperListDebot1.abi.json | xxd -p -c 20000
+exit
++ Записать dabi.json - в моем случае:
+{
+    "dabi": "7b0d0a0........d0a7d0d0a"
+}
+
+Установить dabi
+tonos-cli --url http://127.0.0.1 call 0:8ed6a458c49c675bd4ac0c2389235d03553ba955661d17ad9fca65d6c1833e8e setABI dabi.json --sign shopperListDebot1.keys.json --abi shopperListDebot1.abi.json
+
+вызвать
+=- tonos-cli --url http://127.0.0.1 run --abi shopperListDebot1.abi.json 0:8ed6a458c49c675bd4ac0c2389235d03553ba955661d17ad9fca65d6c1833e8e getDebotInfo "{}"
+
+Todo.decode.json
+tonos-cli --url http://127.0.0.1 call --abi shopperListDebot1.abi.json --sign shopperListDebot1.keys.json 0:8ed6a458c49c675bd4ac0c2389235d03553ba955661d17ad9fca65d6c1833e8e setShopperListCode shopperList.decode.json
+
+
+Вызываем дебота
+=- tonos-cli --url http://127.0.0.1 debot --debug fetch 0:8ed6a458c49c675bd4ac0c2389235d03553ba955661d17ad9fca65d6c1833e8e
