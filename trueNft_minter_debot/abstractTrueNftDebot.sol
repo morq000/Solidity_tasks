@@ -12,7 +12,7 @@ import "./debot_libs/Sdk.sol";
 import "./debot_libs/Itransactable.sol";
 import "./libraries/Constants.sol";
 
-import "NftRoot.sol";
+import "./trueNft/NftRoot.sol";
 import "Interfaces.sol";
 
 // Абстрактный класс для загрузки и создания контракта NftRoot

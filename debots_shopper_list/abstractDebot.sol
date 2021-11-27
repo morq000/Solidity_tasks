@@ -7,7 +7,6 @@ import "Debot.sol";
 import "Terminal.sol";
 import "Menu.sol";
 import "AddressInput.sol";
-import "ConfirmInput.sol";
 import "Upgradable.sol";
 import "Sdk.sol";
 
@@ -73,7 +72,7 @@ abstract contract abstractDebot is Debot, Upgradable  {
 
 	// возврат ID используемых интерфейсов
 	function getRequiredInterfaces() public view override returns (uint256[] interfaces) {
-        return [ Terminal.ID, Menu.ID, AddressInput.ID, ConfirmInput.ID, Sdk.ID];
+        return [ Terminal.ID, Menu.ID, AddressInput.ID, Sdk.ID];
     }
 
 	// првоерка и сохранение введенного pubkey в качестве публичного ключа владельца 

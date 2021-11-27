@@ -56,8 +56,7 @@ abstract contract commonMethodsDebot is abstractDebot {
 
 	function showPurchases_(purchase[] purchaseList) public {
 		if (purchaseList.length > 0) {
-			Terminal.print(0, "Ваш список покупок:");
-			Terminal.print(0, "Номер---Название---Количество---Куплено---Стоимость");
+			Terminal.print(0, "-----Ваш список покупок-----");
 			Terminal.print(0, "---------------------------------------------------");
 			for (uint256 index = 0; index < purchaseList.length; index++) {
 				purchase _pur = purchaseList[index];
@@ -65,9 +64,9 @@ abstract contract commonMethodsDebot is abstractDebot {
 				if (_pur.isBought) {
 					_isBought = "✓";
 				} else {
-					_isBought = "x";
+					_isBought = "X";
 				}
-				Terminal.print(0, format("{}, {}, {}, {}, {}", _pur.id, _pur.name, _pur.quantity, _isBought, _pur.price));
+				Terminal.print(0, format("НОМЕР: {}, НАЗВАНИЕ: {}, КОЛИЧЕСТВО: {}, КУПЛЕНО: {}, СТОИМОСТЬ: {}", _pur.id, _pur.name, _pur.quantity, _isBought, _pur.price));
 			}
 		} else {
 			Terminal.print(0, "Список покупок пуст.");

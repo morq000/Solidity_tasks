@@ -77,6 +77,14 @@
 			]
 		},
 		{
+			"name": "setIcon",
+			"inputs": [
+				{"name":"icon","type":"bytes"}
+			],
+			"outputs": [
+			]
+		},
+		{
 			"name": "setShopperListCode",
 			"inputs": [
 				{"name":"code","type":"cell"},
