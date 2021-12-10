@@ -20,7 +20,7 @@ import "./interfaces/Interfaces.sol";
 import "./interfaces/IData.sol";
 
 // Абстрактный класс для загрузки и создания контракта NftRoot
-contract abstractTrueNftDebot is Debot, Upgradable  {
+contract trueNftDebot is Debot, Upgradable  {
 	
 	
 	// Variables with TNFT files codes. To be assigned before starting Debot.

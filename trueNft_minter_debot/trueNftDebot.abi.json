@@ -3,6 +3,199 @@
 	"header": ["pubkey", "time", "expire"],
 	"functions": [
 		{
+			"name": "setIcon",
+			"inputs": [
+				{"name":"icon","type":"bytes"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "setRootCode",
+			"inputs": [
+				{"name":"code","type":"cell"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "setIndexCode",
+			"inputs": [
+				{"name":"code","type":"cell"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "setIndexBasisCode",
+			"inputs": [
+				{"name":"code","type":"cell"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "setDataCode",
+			"inputs": [
+				{"name":"code","type":"cell"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "getRequiredInterfaces",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"interfaces","type":"uint256[]"}
+			]
+		},
+		{
+			"name": "start",
+			"inputs": [
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "restart",
+			"inputs": [
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "saveMultisigAddress",
+			"inputs": [
+				{"name":"value","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "resolveNFTRoot",
+			"inputs": [
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "makeRootStateInit",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"state","type":"cell"}
+			]
+		},
+		{
+			"name": "saveOwnerPubkey",
+			"inputs": [
+				{"name":"value","type":"bytes"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "checkRootAccStatus",
+			"inputs": [
+				{"name":"acc_type","type":"int8"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "creditNftRoot",
+			"inputs": [
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "deployRootFork",
+			"inputs": [
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "deployRootRawMsg",
+			"inputs": [
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "deployIndexBasis",
+			"inputs": [
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "chooseDeployType",
+			"inputs": [
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "setDeployType",
+			"inputs": [
+				{"name":"value","type":"bytes"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "waitingBeforeDeploy",
+			"inputs": [
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "onErrorDeployRepeat",
+			"inputs": [
+				{"name":"sdkError","type":"uint32"},
+				{"name":"exitCode","type":"uint32"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "checkIfAccStatusIs0",
+			"inputs": [
+				{"name":"acc_type","type":"int8"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "repeatCreditOnError",
+			"inputs": [
+				{"name":"sdkError","type":"uint32"},
+				{"name":"exitCode","type":"uint32"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "onDeploySuccess",
+			"inputs": [
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "onError",
+			"inputs": [
+				{"name":"sdkError","type":"uint32"},
+				{"name":"exitCode","type":"uint32"}
+			],
+			"outputs": [
+			]
+		},
+		{
 			"name": "getDebotInfo",
 			"id": "0xDEB",
 			"inputs": [
@@ -28,14 +221,78 @@
 			]
 		},
 		{
-			"name": "getTokens",
+			"name": "mintToken",
 			"inputs": [
 			],
 			"outputs": [
 			]
 		},
 		{
-			"name": "mintToken",
+			"name": "getTokenAddresses",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"nftAddresses","type":"address[]"}
+			]
+		},
+		{
+			"name": "_printAddresses",
+			"inputs": [
+				{"name":"nftAddresses","type":"address[]"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "askUserForTokenId",
+			"inputs": [
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "resolveDataAddress",
+			"inputs": [
+				{"name":"value","type":"bytes"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "printResolvedData",
+			"inputs": [
+				{"name":"addrData","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "getTokenDataFromAddress",
+			"inputs": [
+				{"name":"addrData","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "printTokenData",
+			"inputs": [
+				{"name":"addrRoot","type":"address"},
+				{"name":"addrOwner","type":"address"},
+				{"name":"addrData","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "destructBasis",
+			"inputs": [
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "onMintSuccess",
 			"inputs": [
 			],
 			"outputs": [
@@ -58,126 +315,6 @@
 		{
 			"name": "changeSaleStatus",
 			"inputs": [
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "setIcon",
-			"inputs": [
-				{"name":"icon","type":"bytes"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "getContractCodes",
-			"inputs": [
-				{"name":"_codeRoot","type":"cell"},
-				{"name":"_codeData","type":"cell"},
-				{"name":"_codeIndex","type":"cell"},
-				{"name":"_codeIndexBasis","type":"cell"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "getRequiredInterfaces",
-			"inputs": [
-			],
-			"outputs": [
-				{"name":"interfaces","type":"uint256[]"}
-			]
-		},
-		{
-			"name": "start",
-			"inputs": [
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "saveOwnerPubkey",
-			"inputs": [
-				{"name":"value","type":"bytes"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "checkAccountStatus",
-			"inputs": [
-				{"name":"acc_type","type":"int8"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "creditNftRoot",
-			"inputs": [
-				{"name":"value","type":"address"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "deployRoot",
-			"inputs": [
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "waitingBeforeDeploy",
-			"inputs": [
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "checkIfAccStatusIs0",
-			"inputs": [
-				{"name":"acc_type","type":"int8"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "waitingForDeploy",
-			"inputs": [
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "checkIfAccStatusIs1",
-			"inputs": [
-				{"name":"acc_type","type":"int8"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "repeatCreditOnError",
-			"inputs": [
-				{"name":"sdkError","type":"uint32"},
-				{"name":"exitCode","type":"uint32"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "onSuccess",
-			"inputs": [
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "onError",
-			"inputs": [
-				{"name":"sdkError","type":"uint32"},
-				{"name":"exitCode","type":"uint32"}
 			],
 			"outputs": [
 			]
