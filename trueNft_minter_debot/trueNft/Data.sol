@@ -3,9 +3,9 @@ pragma ton-solidity >=0.43.0;
 pragma AbiHeader expire;
 pragma AbiHeader time;
 
-import './resolvers/IndexResolver.sol';
-import './interfaces/IData.sol';
-import './libraries/Constants.sol';
+import '../resolvers/IndexResolver.sol';
+import '../interfaces/IData.sol';
+import '../libraries/Constants.sol';
 
 
 contract Data is IData, IndexResolver {
@@ -17,10 +17,10 @@ contract Data is IData, IndexResolver {
 
     constructor(address addrOwner, TvmCell codeIndex) public {
         optional(TvmCell) optSalt = tvm.codeSalt(tvm.code());
-        require(optSalt.hasValue(), 101);
+        require(optSalt.hasValue(), 166);
         (address addrRoot) = optSalt.get().toSlice().decode(address);
-        require(msg.sender == addrRoot);
-        require(msg.value >= Constants.MIN_FOR_DEPLOY);
+        require(msg.sender == addrRoot, 177);
+        require(msg.value >= Constants.MIN_FOR_MINTING, 188);
         tvm.accept();
         _addrRoot = addrRoot;
         _addrOwner = addrOwner;

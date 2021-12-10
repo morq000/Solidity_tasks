@@ -3,7 +3,7 @@ pragma ton-solidity >=0.43.0;
 pragma AbiHeader expire;
 pragma AbiHeader time;
 
-import './interfaces/IIndex.sol';
+import '../interfaces/IIndex.sol';
 
 contract Index is IIndex {
     address _addrRoot;
