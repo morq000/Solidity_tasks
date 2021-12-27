@@ -7,6 +7,7 @@ These tasks were completed during the course "Smart contract programming in Soli
 
 
 
+
 ### True NFT minter DeBot
 DeBot that implements minting of TrueNFT standard tokens
 
