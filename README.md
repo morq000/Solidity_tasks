@@ -1,5 +1,5 @@
 # Solidity coursework
-These tasks were coded during the course "Smart contract programming in Solidity language during October/November 2021".
+These tasks were completed during the course "Smart contract programming in Solidity language during October/November 2021".
 
 ## Project list
 
