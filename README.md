@@ -8,23 +8,6 @@ DeBot that implements minting of TrueNFT standard tokens
 https://github.com/morq000/Solidity_tasks/tree/master/trueNft_minter_debot
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ### Shopping list DeBots
 Two debots that work with the same smart contract and manage shopping list
 
